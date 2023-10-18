@@ -45,5 +45,9 @@ namespace API.Services
             return tokenHandler.WriteToken(jwt);
         }
 
+        internal object GenerateToken(User user, object configuration)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

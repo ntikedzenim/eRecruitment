@@ -2,7 +2,6 @@
 using API.Models;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +28,7 @@ namespace API.Controllers
         [HttpGet("refresh-user-token")]
         public async Task<ActionResult<UserDto>> RefreshUserToken()
         {
-            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.Email)?.Value);
+            var user = await _userManager.FindByNameAsync(User.FindFirst(ClaimTypes.GivenName)?.Value);
             return CreateApplicationUserDto(user);
         }
 
@@ -68,7 +67,7 @@ namespace API.Controllers
             var result = await _userManager.CreateAsync(userToAdd, model.Password);
             if (!result.Succeeded) return BadRequest(result.Errors);
 
-            return Ok("Your account has been created, you can login");
+            return Ok(new JsonResult(new {title = "Accont Created", message = "Your account has been created, you can login"}));
         }
 
         #region Private Helper Methods
